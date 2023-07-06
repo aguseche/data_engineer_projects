@@ -18,9 +18,7 @@ The idea is to simulate a real use case of a ETL workflow
 def extract(color: str, year: int, month: int) -> pd.DataFrame:
     # This is done to get the correct url
     url = "https://d37ci6vzurychx.cloudfront.net/trip-data"
-    if month < 10:
-        month = '0' + str(month)
-    parquet_url = f'{url}/{color}_tripdata_{year}-{month}.parquet'
+    parquet_url = f'{url}/{color}_tripdata_{year}-{month:02}.parquet'
     df = pd.read_parquet(parquet_url)
     return df
 
