@@ -7,17 +7,17 @@ from sqlalchemy import create_engine
 from prefect import flow, task
 from prefect.tasks import task_input_hash
 from prefect_sqlalchemy import SqlAlchemyConnector
-from prefect.utilities.logging import log_task
 
 '''
-This file Downloads data from NY_TAXI, Transforms it and Uploads it to a Postgres Database that runs in a docker container.
+This file Downloads data from NY_TAXI, Transforms it and Uploads it to a Postgres Database.
 The idea is to simulate a real use case of a ETL workflow
 '''
 
 
-@task(log_prints=True, retries=3)
-def extract(url: str, color: str, year: int, month: int) -> pd.DataFrame:
+@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+def extract(color: str, year: int, month: int) -> pd.DataFrame:
     # This is done to get the correct url
+    url = "https://d37ci6vzurychx.cloudfront.net/trip-data"
     if month < 10:
         month = '0' + str(month)
     parquet_url = f'{url}/{color}_tripdata_{year}-{month}.parquet'
@@ -52,17 +52,15 @@ def log_subflow(table_name: str):
 
 
 @flow(name="Ingest Data")
-def main_flow():
-    URL = "https://d37ci6vzurychx.cloudfront.net/trip-data"
-    MONTHS = 2
-    YEARS = [2021, 2022]
-    COLORS = ['green', 'yellow']
-    for color in COLORS:
+def main_flow(
+        months: list[int] = [1, 2], years: list[int] = [2021, 2022], colors: list[str] = ["green", "yellow"]
+):
+    for color in colors:
         table_name = f'ny_taxi_trips_{color}'
         log_subflow(table_name)
-        for year in YEARS:
-            for month in range(1, MONTHS+1):
-                raw_df = extract(URL, color, year, month)
+        for year in years:
+            for month in months:
+                raw_df = extract(color, year, month)
                 transformed_df = transform(raw_df)
                 load(table_name, transformed_df)
 
