@@ -35,7 +35,6 @@ resource "google_storage_bucket" "data-lake-bucket" {
       age = 30  // days
     }
   }
-
   force_destroy = true
 }
 
@@ -54,6 +53,7 @@ resource "google_bigquery_table" "rides_green"{
   dataset_id = var.BQ_DATASET
   table_id = "rides_green"
   schema = file("schemas/trips_green.json")
+  deletion_protection=false
   depends_on = [
     google_bigquery_dataset.dataset
   ]
@@ -63,6 +63,7 @@ resource "google_bigquery_table" "rides_yellow"{
   dataset_id = var.BQ_DATASET
   table_id = "rides_yellow"
   schema = file("schemas/trips_yellow.json")
+  deletion_protection=false
   depends_on = [
     google_bigquery_dataset.dataset
   ]
