@@ -46,3 +46,24 @@ resource "google_bigquery_dataset" "dataset" {
   project    = var.project
   location   = var.region
 }
+
+#Tables
+#Ref: https://www.youtube.com/watch?v=fBqviV-N-Gw
+
+resource "google_bigquery_table" "rides_green"{
+  dataset_id = var.BQ_DATASET
+  table_id = "rides_green"
+  schema = file("schemas/trips_green.json")
+  depends_on = [
+    google_bigquery_dataset.dataset
+  ]
+}
+
+resource "google_bigquery_table" "rides_yellow"{
+  dataset_id = var.BQ_DATASET
+  table_id = "rides_yellow"
+  schema = file("schemas/trips_yellow.json")
+  depends_on = [
+    google_bigquery_dataset.dataset
+  ]
+}
