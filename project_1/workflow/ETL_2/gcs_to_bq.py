@@ -15,13 +15,14 @@ The idea is to simulate a real use case of a ETL workflow
 '''
 
 
-@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+# @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+@task(retries=3)
 def download_from_gcs(color: str, year: int, month: int) -> Path:
     # This is done to get the correct url
     gcs_path = f'data/{color}/{color}_tripdata_{year}-{month:02}.parquet'
     gcs_block = GcsBucket.load("zoom-gcs")
-    gcs_block.get_directory(from_path=gcs_path, local_path=f"../data/")
-    return Path(f"../data/{gcs_path}")
+    gcs_block.get_directory(from_path=gcs_path, local_path=".")
+    return Path(f"{gcs_path}")
 
 
 @task(log_prints=True)
