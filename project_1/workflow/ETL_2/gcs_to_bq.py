@@ -14,9 +14,17 @@ This file Downloads data from NY_TAXI, Transforms it and Uploads it to a Google 
 The idea is to simulate a real use case of a ETL workflow
 '''
 
+MAP_PAYMENT_TYPE_DESCRIPTION = {
+    1: 'Credit card',
+    2: 'Cash',
+    3: 'No charge',
+    4: 'Dispute',
+    5: 'Unknown',
+    6: 'Voided trip'
+}
 
-# @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
-@task(retries=3)
+
+@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 def download_from_gcs(color: str, year: int, month: int) -> Path:
     # This is done to get the correct url
     gcs_path = f'data/{color}/{color}_tripdata_{year}-{month:02}.parquet'
@@ -37,6 +45,9 @@ def transform(df: pd.DataFrame) -> pd.DataFrame:
     # Therefore, i will remove those instances
     # I could add more transformations here, this is just an easy use case.
     df = df[~df['passenger_count'].isnull()]
+    # I could create a hash that sets the payment_type_description here.
+    df['payment_type_description'] = df['payment_type'].map(
+        MAP_PAYMENT_TYPE_DESCRIPTION)
     return df
 
 
