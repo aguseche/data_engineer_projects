@@ -20,7 +20,9 @@ I will be using Terraform to set up the infrastructure in GCP.
     -Then with web_to_gcs.py (loads the data from the web into a Data Lake)
     -At Last with gcs_to_bg.py (loads the data from the Data Lake to BigQuery)
 #### 4- Run the .sql queries located in the BigQuery folder
+    - I do  this to simulate the week 4 of the zoomcamp, i didnt wanted to use dbt.
+    - This could be done with some other pipelines but for simplification i did it this way.
 #### 5- Visualize using Google Data Studio
-#### Extra
-Remember to run terraform destroy in order to keep the costs low.
-I should update the destroy to target only the instances in BigQuery and not in the Data Lakes. (since parquet files are cheap)
+    -Here are some examples i came out with:
+![BI Image 1](images/ny_taxi_looker_1.jpeg)
+![BI Image 2](images/ny_taxi_looker_2.jpeg)
