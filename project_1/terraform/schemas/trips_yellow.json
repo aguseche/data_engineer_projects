@@ -70,6 +70,13 @@
     "fields": []
   },
   {
+    "name": "payment_type_description",
+    "mode": "NULLABLE",
+    "type": "STRING",
+    "description": null,
+    "fields": []
+  },
+  {
     "name": "fare_amount",
     "mode": "NULLABLE",
     "type": "FLOAT",

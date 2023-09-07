@@ -126,6 +126,13 @@
       "fields": []
     },
     {
+      "name": "payment_type_description",
+      "mode": "NULLABLE",
+      "type": "STRING",
+      "description": null,
+      "fields": []
+    },
+    {
       "name": "trip_type",
       "mode": "NULLABLE",
       "type": "FLOAT",

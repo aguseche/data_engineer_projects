@@ -1,0 +1,74 @@
+###
+### A complete description of a Prefect Deployment for flow 'Main ETL Flow'
+###
+name: Main ETL Flow
+description: null
+version: abc0c1bd7da016243ca3307d931c9156
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+tags: []
+parameters: {
+    "months": [1, 2],
+    "years": [2021, 2022],
+    "colors": ["green", "yellow"],
+    "project_id": "ageless-aura-391117",
+    "table": "trips_data_all.rides"
+}
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: Main ETL Flow
+manifest_path: null
+storage: null
+path: /home/eche/Desktop/data_engineer_projects/project_1/workflow/ETL_2
+entrypoint: main_flow.py:main_flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    months:
+      title: months
+      position: 0
+      type: array
+      items:
+        type: integer
+    years:
+      title: years
+      position: 1
+      type: array
+      items:
+        type: integer
+    colors:
+      title: colors
+      position: 2
+      type: array
+      items:
+        type: string
+    project_id:
+      title: project_id
+      position: 3
+      type: string
+    table:
+      title: table
+      position: 4
+      type: string
+  required:
+  - months
+  - years
+  - colors
+  - project_id
+  - table
+  definitions: null
