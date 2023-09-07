@@ -57,8 +57,8 @@ def log_subflow(table_name: str):
 
 
 @flow(name="Ingest Data")
-def main_flow(
-        months: list[int] = [1, 2], years: list[int] = [2021, 2022], colors: list[str] = ["green", "yellow"]
+def web_to_gcs(
+        months: list[int], years: list[int], colors: list[str]
 ):
     for color in colors:
         table_name = f'ny_taxi_trips_{color}'
@@ -71,7 +71,3 @@ def main_flow(
                 path = write_local(transformed_df, filename)
                 load(path)
                 remove(path)
-
-
-if __name__ == '__main__':
-    main_flow()

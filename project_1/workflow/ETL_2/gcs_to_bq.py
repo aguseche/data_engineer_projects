@@ -11,7 +11,7 @@ from prefect_gcp import GcpCredentials
 
 '''
 This file Downloads data from NY_TAXI, Transforms it and Uploads it to a Google Cloud Data Lake (GCS Bucket).
-The idea is to simulate a real use case of a ETL workflow
+The idea is to simulate a real use case of an ETL workflow
 '''
 
 MAP_PAYMENT_TYPE_DESCRIPTION = {
@@ -45,7 +45,6 @@ def transform(df: pd.DataFrame) -> pd.DataFrame:
     # Therefore, i will remove those instances
     # I could add more transformations here, this is just an easy use case.
     df = df[~df['passenger_count'].isnull()]
-    # I could create a hash that sets the payment_type_description here.
     df['payment_type_description'] = df['payment_type'].map(
         MAP_PAYMENT_TYPE_DESCRIPTION)
     return df
@@ -72,8 +71,8 @@ def log_subflow(table_name: str):
 
 
 @flow(name="Ingest Data")
-def main_flow(
-        months: list[int] = [1, 2], years: list[int] = [2021, 2022], colors: list[str] = ["green", "yellow"], project_id: str = 'ageless-aura-391117', table: str = 'trips_data_all.rides'
+def gcs_to_bq(
+    months: list[int], years: list[int], colors: list[str], project_id: str, table: str
 ):
     for color in colors:
         table_name = f'{table}_{color}'
@@ -84,7 +83,3 @@ def main_flow(
                 raw_df = extract(path)
                 transformed_df = transform(raw_df)
                 load(transformed_df, project_id, table_name)
-
-
-if __name__ == '__main__':
-    main_flow()
