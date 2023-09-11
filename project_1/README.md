@@ -1,14 +1,22 @@
 # Project 1
 ## Intro
-#### I am using Terraform, GCP, Prefect
-#### This project is based in https://github.com/DataTalksClub/data-engineering-zoomcamp
 
-The idea is to extract some parquet files from the "New York City TLC Trip Record Data" thats publicly available from this link https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
-https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2022-01.parquet
+This project was created as part of the [Data Engineering Zoomcamp](https://github.com/DataTalksClub/data-engineering-zoomcamp). The goal was to build a data pipeline that ingests data from the NYC Taxi dataset, stores it in a data warehouse, and analyzes it to answer business questions.
 
-Firstly, i will extract the files and load them in a Data Lake (GCS). 
-Then, i will add that data into a Data Warehouse (BigQuery). 
-After some transformations made to the tables in BigQuery, 
+The project was implemented using the following technologies:
+* Google Cloud Platform
+* Docker
+* Google Looker Studio
+* Terraform
+* Prefect
+
+## Workflow
+![Alt text](images/workflow.png)
+
+Firstly, i extract the files from the NYC Taxi dataset and load them in a Data Lake (GCS). 
+Then, i add that data into a Data Warehouse (BigQuery). 
+After some transformations made to the tables in BigQuery i created a connection from Google Looker Studio in order to retreive the data.
+Finally, i gathered some businness requirements and created the charts needed to fulfill them.
 
 I will be using Terraform to set up the infrastructure in GCP.
 
@@ -28,3 +36,9 @@ I will be using Terraform to set up the infrastructure in GCP.
     -Here are some examples i came out with:
 ![BI Image 1](images/ny_taxi_looker_1.jpeg)
 ![BI Image 2](images/ny_taxi_looker_2.jpeg)
+
+## Links of interest
+The data is extracted from the following links
+
+https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2022-01.parquet
